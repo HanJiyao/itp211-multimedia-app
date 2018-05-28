@@ -103,11 +103,11 @@ app.post('/comments', comments.hasAuthorization, comments.create);
 app.delete('/comments/:comments_id', comments.hasAuthorization, comments.delete);
 
 //Setup routs for videos
-app.get('/videos', videos.hasAuthorization, videos.show);
 app.post('/videos', videos.hasAuthorization, upload.single('video'), videos.uploadVideo)
+app.get('/videos', videos.hasAuthorization, videos.show)
 //Setup routs for images
 app.post('/images', images.hasAuthorization, upload.single('image'), images.uploadImage)
-app.get('/images-gallery', images.hasAuthorization, images.show);
+app.get('/images-gallery', images.hasAuthorization, images.show)
 
 
 // catch 404 and forward to error handler
