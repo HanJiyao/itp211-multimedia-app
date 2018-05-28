@@ -68,7 +68,7 @@ exports.uploadImage = function (req, res){
                     message:"error"
                 })
             }
-            //res.redirect('images-gallery')
+            
         })
 
         //remove from temp folder
@@ -76,10 +76,11 @@ exports.uploadImage = function (req, res){
             if(err){
                 return res.status(500).send('Something bad happened here');
             }
-            //Redirect to gallery's page
             res.redirect('images-gallery')
         });
-    });
+    })
+    //Redirect to gallery's page
+    //return res.redirect('images-gallery')
 };
 
 //Images authorization middleware

@@ -68,7 +68,7 @@ exports.uploadVideo = function (req, res){
                     message:"error"
                 })
             }
-            res.redirect('videos')
+            //res.redirect('videos') 
         })
 
         //remove from temp folder
@@ -78,15 +78,15 @@ exports.uploadVideo = function (req, res){
                     message:err
                 });
             }
-            //Redirect to gallery's page
-            res.redirect('videos')
         });
-    });
+    })
+    //Redirect to gallery's page
+    res.redirect('videos');
 };
 
 //Images authorization middleware
-exports.hasAuthorization = function (req, res, next){
-    if(req.isAuthenticated())
+exports.hasAuthorization = function (req, res, next) {
+    if (req.isAuthenticated())
         return next();
-    res.redirect('login');
+    res.redirect('/login');
 };
