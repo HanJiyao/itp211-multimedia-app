@@ -5,12 +5,20 @@ var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 
+// Import multer
+var multer = require('multer');
+var upload = multer({dest:'./public/uploads/', limits:{fileSize:1500000, file:1}});
+
 // Import home controller
 var index = require('./server/controllers/index');
 // Import login controller
 var auth = require('./server/controllers/auth');
 // Import comments controller
 var comments = require('./server/controllers/comments')
+// Import videos controller
+var videos = require('./server/controllers/videos')
+// Import images controller
+var images = require('./server/controllers/images')
 // Modules to store session
 var myDatabase = require('./server/controllers/database');
 var expressSession = require('express-session');
@@ -89,10 +97,18 @@ app.get('/logout', function (req, res) {
     res.redirect('/');
 });
 
-// Setup routs for comments
+//setup routes for comments
 app.get('/comments', comments.hasAuthorization, comments.list);
 app.post('/comments', comments.hasAuthorization, comments.create);
 app.delete('/comments/:comments_id', comments.hasAuthorization, comments.delete);
+
+//Setup routs for videos
+app.get('/videos', videos.hasAuthorization, videos.show);
+app.post('/videos', videos.hasAuthorization, upload.single('video'), videos.uploadVideo)
+//Setup routs for images
+app.post('/images', images.hasAuthorization, upload.single('image'), images.uploadImage)
+app.get('/images-gallery', images.hasAuthorization, images.show);
+
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {

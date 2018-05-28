@@ -33,7 +33,7 @@ const Videos = sequelize.define('Videos', {
 });
 
 // force: true will drop the table if it already exists
-Videos.sync({ force: false, logging: console.log }).then(() => {
+Videos.sync({ force: true, logging: console.log }).then(() => {
     // Table created
     console.log("videos table synced")
 });

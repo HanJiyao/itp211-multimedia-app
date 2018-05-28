@@ -82,18 +82,17 @@
         <% include ../partials/footer %>
         <script>
             $('.deleteBtn').click(function() {
-                var comments_id = $(this).data('id');      
+                var comments_id = $(this).data('id');
                 $.ajax({
-                        url: '<%-urlPath%>'+'/'+comments_id,
+                        url: '<%= urlPath%>'+'/'+comments_id,
+                        //url:'http://localhost:3000/comments'+'/'+comments_id,
                         type: 'DELETE',
                         success: function(result) {
-                            console.log(result.message);
                             var itemToRemove = '.list-group-item[data-id='+comments_id+']';
                             $(itemToRemove).remove();
                         },
                         error: function(result){
                             alert("Unable to delete comment.");
-                            console.log(result.message);
                         } 
                     });  
             });

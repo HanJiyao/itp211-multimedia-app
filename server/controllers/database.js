@@ -1,6 +1,19 @@
 var Sequelize = require('sequelize');
 var sequelizeTransforms = require('sequelize-transforms');
+const sequelize = new Sequelize('p4db','root','Hanjiyao38',{
+    host:'localhost',
+    port:'3306',
+    dialect:'mysql',
+    pool:{
+        max:5,
+        min:0,
+        acquire:30000,
+        idle:10000
+    },
+    operatorsAliases:false
+});
 
+/*
 const sequelize =new Sequelize({
     dialect: 'mssql',
     dialectModulePath: 'tedious',
@@ -18,7 +31,7 @@ const sequelize =new Sequelize({
         idle: 10000
       }
   });
-
+*/
 sequelize.authenticate().then(() => {
     console.log('Connection has been established successfully.');
 }).catch(err => {
