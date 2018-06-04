@@ -102,13 +102,52 @@ app.get('/comments', comments.hasAuthorization, comments.list);
 app.post('/comments', comments.hasAuthorization, comments.create);
 app.delete('/comments/:comments_id', comments.hasAuthorization, comments.delete);
 
-//Setup routs for videos
+//Setup routes for videos
 app.post('/videos', videos.hasAuthorization, upload.single('video'), videos.uploadVideo)
 app.get('/videos', videos.hasAuthorization, videos.show)
-//Setup routs for images
+//Setup routes for images
 app.post('/images', images.hasAuthorization, upload.single('image'), images.uploadImage)
 app.get('/images-gallery', images.hasAuthorization, images.show)
 
+// Setup chat
+var io = require('socket.io')(httpServer)
+var chatConnections = 0;
+var ChatMsg = require('./server/models/chatMsg')
+
+io.on('connection', function(socket){
+    chatConnections++;
+    console.log("Num of chat users connected: "+chatConnections);
+
+    socket.on('disconnect', ()=>{
+        chatConnections--;
+        console.log("Num of chat users connected: " + chatConnections);
+    })
+})
+
+app.get('/messages', (req,res)=>{
+    ChatMsg.findAll().then((chatMessages)=>{
+        res.render('chatMsg',{
+            url: req.protocol+"://"+req.get("host")+req.url,
+            data:chatMessages
+        })
+    })
+})
+app.post('/messages', (req, res)=>{
+    var chatData = {
+        name:req.body.name,
+        message:req.body.message
+    }
+    //save to database
+    ChatMsg.create(chatData).then((newMessage, created) => {
+        if (!newMessage) {
+            return res.send(400, {
+                message: "error"
+            })
+        }
+        io.emit('message', req.body);
+        res.sendStatus(200);
+    })
+})
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {

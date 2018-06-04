@@ -68,7 +68,7 @@ exports.uploadVideo = function (req, res){
                     message:"error"
                 })
             }
-            //res.redirect('videos') 
+            res.redirect('videos') 
         })
 
         //remove from temp folder
@@ -81,7 +81,7 @@ exports.uploadVideo = function (req, res){
         });
     })
     //Redirect to gallery's page
-    res.redirect('videos');
+    //res.redirect('videos');
 };
 
 //Images authorization middleware
